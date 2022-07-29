@@ -5,21 +5,27 @@ import {
     Route,
     Navigate,
 } from "react-router-dom";
+import Header from '../Shared/Header';
 import ChatRoom from '../View/ChatRoom';
 import JoinRoom from '../View/JoinRoom';
 
-const Index = () => {
+const PrivateRoute = (props) => {
+    const id = localStorage.getItem('userName')
 
-    const PrivateRoute = (props) => {
-        const id = localStorage.getItem('userId')
-        if (id) return <Navigate to="/" replace={true} />
-        return <>{props.children}</>
-    }
+    if (props?.isAuth && id) return <Navigate to="/room" />
+    if (!props?.isAuth && !id) return <Navigate to="/" />
+    return <>
+        <Header userName={id} />
+        {props.children}
+    </>
+}
+
+const Index = () => {
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<JoinRoom />} />
+                <Route path="/" element={<PrivateRoute isAuth><JoinRoom /></PrivateRoute>} />
                 <Route path="/room" element={<PrivateRoute><ChatRoom /></PrivateRoute>} />
             </Routes>
         </BrowserRouter>

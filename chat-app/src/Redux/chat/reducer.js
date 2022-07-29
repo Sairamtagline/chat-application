@@ -1,14 +1,7 @@
 import constants from "../constants";
 
 const initialState = {
-    messages: [
-        { message: 'Test1', userName: 'Alex', userId: 123 },
-        { message: 'Test2', userName: 'Milan', userId: 125 },
-        { message: 'Test3', userName: 'Alex', userId: 126 },
-        { message: 'Test4', userName: 'Alex', userId: 127 },
-        { message: 'Test5', userName: 'Milan', userId: 125 },
-        { message: 'Test6', userName: 'Alex', userId: 129 },
-    ],
+    messages: [],
     userMessage: ""
 };
 
@@ -18,6 +11,16 @@ const chat = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            };
+        case constants.SET_MESSAGE_DATA_LIST:
+            return {
+                ...state,
+                messages: action.payload
+            };
+        case constants.MESSAGE_RECEIVED:
+            return {
+                ...state,
+                messages: [...state.messages, action.payload]
             };
         default:
             return state;

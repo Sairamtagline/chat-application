@@ -13,32 +13,90 @@ code {
 }
 .chat-area{
   list-style: none;
-  margin: 50px;
   padding: 0;
+
 }
 .chat-area li {
   margin-bottom:10px;
-  min-width: 300px;
 }
 .chat-area li span {
   display: block;
   font-size: 12px;
 }
-
-.user {
-  float: right;
-  background: #d7f2fa;
+.chat-area li .chat-box {
   display: table;
   padding: 10px;
-  border-radius: 10px;
-  width: 50%;
+  min-width: 300px;
+  max-width: 450px;
 }
-.other-user {
+span.chat-time {
+  float: right;
+  color: #919090;
+}
+.user .chat-box {
+  background: #d7f2fa;
+  margin-left: auto;
+  border-radius: 16px 16px 0 16px;
+}
+.other-user .chat-box {
   text-align: left;
   background: antiquewhite;
-  display: table;
-  padding: 10px;
-  border-radius: 10px;
   clear: both;
-  width: 50%;
+  border-radius: 16px 16px 16px 0;
+}
+.chat-area-box {
+  max-width: 600px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 30px auto;
+  height: -moz-calc(100vh - 112px);
+  height: -webkit-calc(100vh - 112px);
+  height: calc(100vh - 112px);
+  overflow-y: auto;
+  position: relative;
+}
+.chat-input {
+  position: sticky;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: -10px;
+}
+.chat-input input {
+  border-radius: 50px;
+}
+.chat-input button {
+  position: absolute;
+  right: 20px;
+  top: 9px;
+  border-radius: 50px;
+}
+.header {
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  padding:10px
+}
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header-inner {
+  display: flex;
+}
+.header-inner h2 {
+  margin-bottom: 0
+}
+.header-right {
+  margin-left: auto;
+}
+.header button {
+  margin-left: 10px
+}
+.join-form {
+  max-width:600px;
+  margin: 30px auto 0;
 }

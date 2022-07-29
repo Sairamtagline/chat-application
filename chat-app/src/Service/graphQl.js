@@ -12,8 +12,8 @@ import { onError } from "@apollo/client/link/error"
 import { rootNavigate } from ".."
 
 const config = {
-    apiUrl: 'http://192.168.0.91:3000/',
-    socketUrl: 'ws://192.168.0.91:3000/'
+    apiUrl: process.env.REACT_APP_API_BASE_URL,
+    socketUrl: process.env.REACT_APP_API_SOCKET_URL
 }
 
 

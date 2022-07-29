@@ -5,3 +5,15 @@ export const setMessage = (payload) => {
     dispatch(actions.setMessageAction(payload))
   };
 };
+
+export const setMessageDataList = (payload) => {
+  return async (dispatch) => {
+    dispatch(actions.setMessageDataListAction(payload))
+  };
+};
+
+export const messageReceived = (payload) => {
+  return async (dispatch) => {
+    dispatch(actions.messageReceivedAction(payload))
+  };
+};

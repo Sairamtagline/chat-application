@@ -1,9 +1,8 @@
 export const joinRoom = [
     {
         type: 'text',
-        placeholder: 'Username',
+        placeholder: 'Enter your username',
         name: 'username',
-        label: 'Enter your username',
     },
     {
         type: 'submit',

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
@@ -22,9 +21,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ApolloProvider client={apolloClient}>
-        {/* <HistoryRouter history={history}> */}
         <App />
-        {/* </HistoryRouter> */}
       </ApolloProvider>
     </Provider>
   </React.StrictMode>

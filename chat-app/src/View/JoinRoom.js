@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setAuthData } from '../Redux/auth/action'
-import { ADD_USER, USER_UPDATE } from '../Service/gql-queries'
+import { ADD_USER } from '../Service/gql-queries'
 import Form from '../Shared/Form'
 import { joinRoom } from '../Utils/description'
 
@@ -11,37 +11,34 @@ const JoinRoom = () => {
   const navigation = useNavigate()
   const dispatch = useDispatch()
   const auth = useSelector(state => state.auth)
-  const [addUser, { data, loading }] = useMutation(ADD_USER)
-  console.log('auth', auth)
+  const [addUser] = useMutation(ADD_USER)
+
   const onChange = (e) => {
-    console.log('called :>> ');
     dispatch(setAuthData({ [e.target.name]: e.target.value }))
   }
 
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
-
-
   const onSubmit = async () => {
-    navigation('/room')
-    console.log('called :>> ',);
     try {
       const res = await addUser({
         variables: {
-          user: auth.username, id: 1
+          user: auth.username, id: parseInt(localStorage.getItem('userId')) || 0,
         }
       })
-      localStorage.setItem('userId', 1)
-      navigation('/room')
-      console.log('res :>> ', res);
+      if (res.data) {
+        const { addUser } = res.data
+        localStorage.setItem('userName', addUser?.name)
+        localStorage.setItem('userId', addUser?.id)
+        navigation('/room')
+        dispatch(setAuthData({ 'username': '' }))
+      }
     } catch (error) {
       console.log('error', error)
     }
   }
 
   return (
-    <div>
+    <div className="join-form">
+      <center><h3>Join Room</h3></center>
       <Form formItems={joinRoom} formData={auth} {...{ onSubmit, onChange }} />
     </div>
   )

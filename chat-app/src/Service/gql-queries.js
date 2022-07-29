@@ -1,12 +1,17 @@
 import { gql } from "@apollo/client"
 
-export const GET_PROJECT_INVITESHOME = gql`
-  query getaccessdetail($documentId: String!, $userId: String!) {
-    documentAccessGet(user_id: $userId, document_id: $documentId) {
-      document_id
-      user_id
+export const GET_ALL_MESSAGES = gql`
+  query{
+    getAllMessages {
+      id
+      message
+      createdAt
+      users{
+        id
+        name
+      }
     }
-  }
+  } 
 `
 
 export const ADD_USER = gql`
@@ -18,11 +23,24 @@ export const ADD_USER = gql`
   }
 `
 
-export const SESSION_UPDATE_SUBSCRIPTION = gql`
-  subscription SubmissionUpdate($session_id: String) {
-    sessionUpdated(session_id: $session_id) {
+export const ADD_MESSAGE = gql`
+  mutation sendMessage($message: String!, $userId: Float!) {
+    sendMessage(message:$message, userId: $userId){
+      message
+    } 
+  }
+`
+
+export const MESSAGE_ADDED_SUBSCRIPTION = gql`
+  subscription {
+    messageAdded {
       id
-      xfdf
+      message
+      createdAt
+      users{
+        id
+        name
+      }
     }
   }
 `

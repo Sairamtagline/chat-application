@@ -26,7 +26,7 @@ const Form = ({ formItems, formData, onSubmit, onChange, ...rest }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="chat-input">
             {formItems.map((item, index) =>
                 <FormItem {...{ ...item, formData, onChange }} key={index} />
             )}
