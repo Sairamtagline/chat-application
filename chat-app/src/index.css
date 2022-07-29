@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.chat-area{
+  list-style: none;
+  margin: 50px;
+  padding: 0;
+}
+.chat-area li {
+  margin-bottom:10px;
+  min-width: 300px;
+}
+.chat-area li span {
+  display: block;
+  font-size: 12px;
+}
+
+.user {
+  float: right;
+  background: #d7f2fa;
+  display: table;
+  padding: 10px;
+  border-radius: 10px;
+  width: 50%;
+}
+.other-user {
+  text-align: left;
+  background: antiquewhite;
+  display: table;
+  padding: 10px;
+  border-radius: 10px;
+  clear: both;
+  width: 50%;
+}
