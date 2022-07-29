@@ -2,7 +2,7 @@ import { Input } from 'antd';
 import React from 'react';
 
 
-const InputComponent = (props) => {
+const InputComponent = (props:any) => {
     return (
         <Input {...props} />
     )

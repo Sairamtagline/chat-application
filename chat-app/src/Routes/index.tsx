@@ -9,7 +9,7 @@ import Header from '../Shared/Header';
 import ChatRoom from '../View/ChatRoom';
 import JoinRoom from '../View/JoinRoom';
 
-const PrivateRoute = (props) => {
+const PrivateRoute = (props: any) => {
     const id = localStorage.getItem('userName')
 
     if (props?.isAuth && id) return <Navigate to="/room" />

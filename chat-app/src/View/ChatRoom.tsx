@@ -4,6 +4,7 @@ import { useLazyQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { messageReceived, setMessage, setMessageDataList } from '../Redux/chat/action'
+import { AppDispatch } from '../Redux/store'
 import { ADD_MESSAGE, GET_ALL_MESSAGES, MESSAGE_ADDED_SUBSCRIPTION } from '../Service/gql-queries'
 import ChatArea from '../Shared/ChatArea'
 import Form from '../Shared/Form'
@@ -11,8 +12,8 @@ import { chatRoom } from '../Utils/description'
 
 const ChatRoom = () => {
 
-    const dispatch = useDispatch()
-    const chat = useSelector(state => state.chat)
+    const dispatch:AppDispatch = useDispatch()
+    const chat = useSelector((state:any) => state.chat)
     const { data: messageSubscriptionData } = useSubscription(MESSAGE_ADDED_SUBSCRIPTION)
     const [fetchAllMessages, { data: messages }] = useLazyQuery(GET_ALL_MESSAGES, { fetchPolicy: "network-only" })
     const [addUser] = useMutation(ADD_MESSAGE)
@@ -43,7 +44,7 @@ const ChatRoom = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messageSubscriptionData])
 
-    const onChange = (e) => {
+    const onChange = (e: any) => {
         dispatch(setMessage({ [e.target.name]: e.target.value }))
     }
 

@@ -11,9 +11,11 @@ import store from './Redux/store';
 import { createBrowserHistory } from "history";
 export const history = createBrowserHistory({ window });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
-export const rootNavigate = (to) => {
+export const rootNavigate = (to:string) => {
   history.push(to);
 };
 
