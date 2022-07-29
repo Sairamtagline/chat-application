@@ -1,22 +1,26 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../databaseService';
 
 @Injectable()
 export class UserService {
   constructor(@Inject(PrismaService) private prismaService: PrismaService) { }
 
-  addUsers = async (name: string, userId: number | null) => {
-    if (userId) {
-      return this.prismaService.user.update({
+  //Add new user service 
+  async addUsers(name: string, userId: number | null) {
+    try {
+      return this.prismaService.user.upsert({
         where: {
           id: userId,
         },
-        data: {
+        update: {
+          name
+        },
+        create: {
           name
         },
       });
-    } else {
-      return this.prismaService.user.create({ data: { name } });
+    } catch (error) {
+      throw new HttpException("BadRequestException", HttpStatus.BAD_REQUEST)
     }
   };
 }

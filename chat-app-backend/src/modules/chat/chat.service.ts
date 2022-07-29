@@ -1,35 +1,56 @@
+import { subscriptionEvents } from './../../common/subscriptionEvents';
+import { Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { PubSub } from 'graphql-subscriptions';
 import { PrismaService } from './../../databaseService';
-import { Inject, Injectable } from '@nestjs/common';
-import { PubSub } from 'graphql-subscriptions'
 export const pubsub = new PubSub();
 
 @Injectable()
 export class ChatService {
     constructor(@Inject(PrismaService) private prismaService: PrismaService) { }
 
-    sendMessage = async (message: string, userId: number | null) => {
-        const msg = await this.prismaService.chat.create({ data: { message, userId } })
-        const latestChat = await this.prismaService.chat.findFirst({
-            where: {
-                id: msg.id
-            },
-            include: {
-                users: true
-            }
-        })
-        pubsub.publish('MESSAGE_ADDED', { messageAdded: latestChat });
-        return await this.prismaService.chat.create({ data: { message, userId } })
+    //Add new message service
+    async sendMessage(message: string, userId: number | null) {
+        try {
+            const msg = await this.prismaService.chat.create({ data: { message, userId } })
+            const latestChat = await this.prismaService.chat.findFirst({
+                where: {
+                    id: msg.id
+                },
+                include: {
+                    users: true
+                }
+            })
+
+            //Publish latest message
+            pubsub.publish(subscriptionEvents.MESSAGE_ADDED, { messageAdded: latestChat });
+            return msg
+        } catch (error) {
+            throw new HttpException("BadRequestException", HttpStatus.BAD_REQUEST)
+        }
     };
 
-    getMessage = async () => {
-        return this.prismaService.chat.findMany({
-            include: {
-                users: true
-            }
-        })
+    //Get all message service
+    async getMessage() {
+        try {
+            return this.prismaService.chat.findMany({
+                orderBy: [{
+                    createdAt: "asc"
+                }],
+                include: {
+                    users: true
+                }
+            })
+        } catch (error) {
+            throw new HttpException("BadRequestException", HttpStatus.BAD_REQUEST)
+        }
     };
 
-    messageAdded = async () => {
-        return pubsub.asyncIterator('MESSAGE_ADDED');
+    //Message subscription service
+    async messageAdded() {
+        try {
+            return pubsub.asyncIterator(subscriptionEvents.MESSAGE_ADDED);
+        } catch (error) {
+            throw new HttpException("BadRequestException", HttpStatus.BAD_REQUEST)
+        }
     };
 }

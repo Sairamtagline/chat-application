@@ -1,18 +1,17 @@
-import { join } from 'path';
-import { UserModule } from './modules/user/user.module';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { ApolloDriver } from '@nestjs/apollo';
+import { Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 import { PrismaService } from './databaseService';
-import { GraphqlOptions } from './modules/graphql.option';
 import { ChatModule } from './modules/chat/chat.module';
-import { PubSub } from 'graphql-subscriptions'
-import { ConfigModule,ConfigService } from '@nestjs/config';
+import { GraphqlOptions } from './modules/graphql.option';
+import { UserModule } from './modules/user/user.module';
 
+@Global()
 @Module({
   imports: [
     GraphQLModule.forRootAsync({
-      // installSubscriptionHandlers: true, 
       driver: ApolloDriver,
       useClass: GraphqlOptions,
       imports: [ConfigModule],
@@ -20,7 +19,6 @@ import { ConfigModule,ConfigService } from '@nestjs/config';
       useFactory: (
         configService: ConfigService,
       ) => ({
-        // playground: Boolean(configService.get('GRAPHQL_PLAYGROUND')),
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         installSubscriptionHandlers: true
       })
@@ -29,10 +27,7 @@ import { ConfigModule,ConfigService } from '@nestjs/config';
     ChatModule
   ],
   controllers: [],
-  providers: [PrismaService,
-    {
-      provide: 'PUB_SUB',
-      useValue: new PubSub(),
-    },],
+  providers: [PrismaService],
+  exports: [PrismaService]
 })
 export class AppModule { }

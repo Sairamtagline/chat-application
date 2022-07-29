@@ -1,31 +1,21 @@
-import { UserService } from './user.service';
 import {
-  Args,
-  Context,
-  Mutation,
-  Query,
-  ResolveField,
-  Resolver,
-  Root,
+  Args, Mutation,
+  Query, Resolver
 } from '@nestjs/graphql';
-
-import { User } from '../../models/userModel';
+import { UserService } from './user.service';
 import { Inject } from '@nestjs/common';
 import { Chat } from 'src/models/chatModel';
+import { User } from '../../models/userModel';
 
 
-@Resolver((of) => User)
+@Resolver(() => User)
 export class UserResolver {
   //Instance of the prisma service
   constructor(@Inject(UserService) private readonly userService: UserService) { }
-  @Query((returns) => [Chat], {
-    description: 'It returns all registered users',
-  })
-  async users() {
-    // return this.userService.addUsers("name","1");
-  }
 
-  @Mutation((returns) => User)
+  @Mutation(() => User, {
+    description: 'It add or update user',
+  })
   async addUser(
     @Args('name') name: string,
     @Args('id') userId: number | null,

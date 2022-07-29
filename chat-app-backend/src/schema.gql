@@ -6,7 +6,14 @@
 type User {
   id: ID!
   name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 """Chat model"""
 type Chat {
@@ -14,21 +21,24 @@ type Chat {
   message: String!
   userId: User!
   users: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
-  """It returns all registered users"""
-  users: [Chat!]!
-
-  """It returns all registered users"""
+  """It returns all messages"""
   getAllMessages: [Chat!]!
 }
 
 type Mutation {
+  """It add or update user"""
   addUser(name: String!, id: Float!): User!
+
+  """It add chat message and return latest message"""
   sendMessage(message: String!, userId: Float!): Chat!
 }
 
 type Subscription {
+  """It returns new message with user details"""
   messageAdded: Chat!
 }
