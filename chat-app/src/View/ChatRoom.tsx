@@ -12,11 +12,11 @@ import { chatRoom } from '../Utils/description'
 
 const ChatRoom = () => {
 
-    const dispatch:AppDispatch = useDispatch()
-    const chat = useSelector((state:any) => state.chat)
+    const dispatch: AppDispatch = useDispatch()
+    const chat = useSelector((state: any) => state.chat)
     const { data: messageSubscriptionData } = useSubscription(MESSAGE_ADDED_SUBSCRIPTION)
     const [fetchAllMessages, { data: messages }] = useLazyQuery(GET_ALL_MESSAGES, { fetchPolicy: "network-only" })
-    const [addUser] = useMutation(ADD_MESSAGE)
+    const [addMessage, { loading }] = useMutation(ADD_MESSAGE)
 
     useEffect(() => {
         fetchAllMessages()
@@ -49,10 +49,11 @@ const ChatRoom = () => {
     }
 
     const onSubmit = async () => {
+        if (loading) return
         try {
             const userId = localStorage.getItem('userId');
             if (userId && chat?.userMessage) {
-                const res = await addUser({
+                const res = await addMessage({
                     variables: {
                         message: chat?.userMessage,
                         userId: parseInt(userId),
